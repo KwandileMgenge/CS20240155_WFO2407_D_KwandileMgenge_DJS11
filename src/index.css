@@ -79,3 +79,14 @@
   margin-right: 8px; /* Add space between genres */
   margin-top: 5px;
 }
+
+.podcast-detailed-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.podcast-detailed-info > img {
+  align-self: center;
+  width: 10em;
+}

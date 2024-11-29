@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
  */
 
 export default function PodcastPreviews() {
-    const [podcasts, setPodcasts] = useState([]);
+    const [podcastsPreviews, setPodcastsPreviews] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -24,7 +24,7 @@ export default function PodcastPreviews() {
         fetchPodcastPreviews()
             .then((data) => {
                 const sortedShows = data.sort((a, b) => a.title.localeCompare(b.title));
-                setPodcasts(sortedShows);
+                setPodcastsPreviews(sortedShows);
                 setLoading(false);
             })
             .catch((error) => {
@@ -33,9 +33,9 @@ export default function PodcastPreviews() {
             });
     }, []);
 
-    const podcastElements = podcasts.map((podcast) => (
+    const podcastElements = podcastsPreviews.map((podcast) => (
         <div key={podcast.id} className="podcast-tile">
-            <Link to={`/preview/${podcast.id}`}>
+            <Link to={`/previews/${podcast.id}`}>
                 <img src={podcast.image} alt={podcast.title} />
                 <div className="podcast-info">
                     <div className="genre-container">
