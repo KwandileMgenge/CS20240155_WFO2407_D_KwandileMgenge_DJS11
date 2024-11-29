@@ -5,7 +5,7 @@ export default function HomePage() {
         <div className="home-container">
             <h1>Podcast App</h1>
             <p>Discover your favorite podcasts with us.</p>
-            <Link>Browse</Link>
+            <Link to={'/previews/'}>Browse</Link>
         </div>
     )
 }

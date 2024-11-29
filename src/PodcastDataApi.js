@@ -1,7 +1,7 @@
 // Base URL of the API
 const API_URL = 'https://podcast-api.netlify.app';
 
-const genreMapping = {
+export const genreMapping = {
     1: 'Personal Growth',
     2: 'Investigative Journalism',
     3: 'History',
@@ -14,19 +14,19 @@ const genreMapping = {
 };
 
 // Fetch show previews from the API
-const fetchPodcastPreviews = async () => {
+export const fetchPodcastPreviews = async () => {
     const response = await fetch(`${API_URL}`);
     return await response.json();
 };
 
 // Fetch detailed show information from the API
-const fetchDetailedPodcastData = async (showId) => {
+export const fetchDetailedPodcastData = async (showId) => {
     const response = await fetch(`${API_URL}/id/${showId}`);
     return await response.json();
 };
 
 // Fetch genre details from the API
-const fetchGenreDetails = async (genreId) => {
+export const fetchGenreDetails = async (genreId) => {
     const response = await fetch(`${API_URL}/genre/${genreId}`);
     return await response.json();
 };
