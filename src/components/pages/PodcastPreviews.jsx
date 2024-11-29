@@ -37,7 +37,7 @@ export default function PodcastPreviews() {
         <div key={podcast.id} className="podcast-tile">
             <Link to={`/previews/${podcast.id}`}>
                 <img src={podcast.image} alt={podcast.title} />
-                <div className="podcast-info">
+                <div className="podcast-preview-info">
                     <div className="genre-container">
                         {podcast.genres.map((genreId) => (
                             <p key={genreId} to={`/genre/${genreId}`} className="genre-label">

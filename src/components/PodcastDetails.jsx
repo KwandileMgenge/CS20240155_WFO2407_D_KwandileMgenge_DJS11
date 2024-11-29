@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchDetailedPodcastData, genreMapping } from "../PodcastDataApi"; // Assuming you have this function to fetch podcast details
+import { fetchDetailedPodcastData, fetchPodcastPreviews, genreMapping } from "../PodcastDataApi"; // Assuming you have this function to fetch podcast details
 
 /**
  * "id": "10716",
@@ -77,49 +77,80 @@ import { fetchDetailedPodcastData, genreMapping } from "../PodcastDataApi"; // A
  * */ 
 
 export default function PodcastDetails() {
-  const { id } = useParams(); // Extract the podcast id from the URL
-  const [podcast, setPodcast] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    // Fetch the podcast details when the component mounts
-    fetchDetailedPodcastData(id)
-      .then((data) => {
-        setPodcast(data); // Set the podcast data
-        setLoading(false); // Set loading to false once data is fetched
-      })
-      .catch((err) => {
-        setError(err); // Set error if there's an issue fetching the data
-        setLoading(false); // Stop loading
-      });
-  }, [id]); // Re-run the effect if the `id` changes
-
-  if (loading) {
-    return <p>Loading...</p>; // Show a loading message while data is being fetched
-  }
-
-  if (error) {
-    return <p>Error: {error.message}</p>; // Show an error message if fetching fails
-  }
-
-  if (!podcast) {
-    return <p>Podcast not found.</p>; // Show this if no podcast is found
-  }
-
-  return (
-    <div>
+    const { id } = useParams(); // Extract the podcast id from the URL
+    const [podcast, setPodcast] = useState(null);
+    const [genres, setGenres] = useState([]);
+    const [showFullDescription, setShowFullDescription] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    
+    useEffect(() => {
+        // Fetch podcast previews
+        fetchPodcastPreviews()
+        .then((data) => {
+            const podcastLookup = data.find((podcast) => podcast.id === id);
+            setGenres(podcastLookup?.genres || []);
+        })
+        .catch((err) => {
+            setError(err);
+            setLoading(false);
+        });
+    
+        // Fetch detailed podcast data
+        fetchDetailedPodcastData(id)
+        .then((data) => {
+            setPodcast(data);
+            setLoading(false);
+        })
+        .catch((err) => {
+            setError(err);
+            setLoading(false);
+        });
+    }, [id]);
+    
+    const showMore = () => {
+        setShowFullDescription((prev) => !prev); // Toggle description visibility
+    };
+    
+    // Loading and error states
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+    
+    if (error) {
+        return <p>Error: {error.message}</p>;
+    }
+    
+    if (!podcast) {
+        return <p>Podcast not found.</p>;
+    }
+    
+    return (
+        <div>
         <div className="podcast-detailed-info">
             <h1>{podcast.title}</h1>
             <img src={podcast.image} alt={podcast.title} />
             <div className="genre-container">
-                {podcast.genres.map((genreId) => (
-                    <p key={genreId} to={`/genre/${genreId}`} className="genre-label">
-                        {genreMapping[genreId]}
+                {genres.map((genreId) => (
+                    <p key={genreId} className="genre-label">
+                        {genreMapping[genreId]} {/* Assuming genreMapping is available */}
                     </p>
                 ))}
             </div>
+            <div>
+            {/* Show truncated or full description based on state */}
+            <p>
+                {showFullDescription ? (
+                podcast.description
+                ) : (
+                <>
+                    {podcast.description.slice(0, 250)}{' '}...
+                    <a className="read-more" onClick={(e) => { e.preventDefault(); showMore(); }}>read more</a>
+                </>
+                )}
+            </p>
+            </div>
         </div>
-    </div>
-  );
-}
+        </div>
+    );
+    }
