@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchPodcastPreviews, genreMapping } from "../../PodcastDataApi";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 /**
  * Example Podcast Object
@@ -16,7 +16,10 @@ import { Link } from "react-router-dom";
  */
 
 export default function PodcastPreviews() {
+    const [searchParams] = useSearchParams();
+    const query = searchParams.get('query'); 
     const [podcastsPreviews, setPodcastsPreviews] = useState([]);
+    const [filteredPreviews, setFilteredPreviews] = useState([])
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -32,6 +35,27 @@ export default function PodcastPreviews() {
                 setLoading(false);
             });
     }, []);
+
+    useEffect(() => {
+        if (query && !'') {
+            const filtered = podcastsPreviews.filter((podcast) => 
+                podcast.title.toLowerCase().includes(query.toLowerCase()) || 
+                podcast.description.toLowerCase().includes(query.toLowerCase())
+            );
+            setFilteredPreviews(filtered);
+        } else {
+            setFilteredPreviews(podcastsPreviews)
+        }
+    }, [query]);
+
+    const handleSortChange = (order) => {
+        const sorted = [...podcastsPreviews].sort((a, b) =>
+          order === 'asc'
+            ? a.title.localeCompare(b.title)
+            : b.title.localeCompare(a.title)
+        );
+        setPodcastsPreviews(sorted);
+    };
 
     const podcastElements = podcastsPreviews.map((podcast) => (
         <div key={podcast.id} className="podcast-tile">
@@ -55,9 +79,12 @@ export default function PodcastPreviews() {
 
     return (
         <>
-            <h1>Podcast Previews</h1>
             <div>
-                <h1>Explore and listen to our podcasts</h1>
+                {/* Sort Options */}
+                <div className="sort-options">
+                    <button onClick={() => handleSortChange('asc')}>Sort A-Z</button>
+                    <button onClick={() => handleSortChange('desc')}>Sort Z-A</button>
+                </div>
                 <div className="previews-container">
                     {loading ? 'Loading...' : podcastElements}
                     {error && <p>Error loading podcasts: {error.message}</p>}
