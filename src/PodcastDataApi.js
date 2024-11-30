@@ -16,17 +16,48 @@ export const genreMapping = {
 // Fetch show previews from the API
 export const fetchPodcastPreviews = async () => {
     const response = await fetch(`${API_URL}`);
-    return await response.json();
+    const data = await response.json();
+
+    // Save the fetched data to local storage
+    localStorage.setItem('podcastPreviews', JSON.stringify(data)); // Store data as a JSON string
+    
+    return data;
 };
 
 // Fetch detailed show information from the API
 export const fetchDetailedPodcastData = async (showId) => {
     const response = await fetch(`${API_URL}/id/${showId}`);
-    return await response.json();
+    const data = await response.json();
+
+    // Save the detailed data to local storage (you can store it using the showId)
+    localStorage.setItem(`podcastDetails_${showId}`, JSON.stringify(data)); // Store data as a JSON string
+    
+    return data;
 };
 
 // Fetch genre details from the API
 export const fetchGenreDetails = async (genreId) => {
     const response = await fetch(`${API_URL}/genre/${genreId}`);
-    return await response.json();
+    const data = await response.json();
+
+    // Save the genre data to local storage
+    localStorage.setItem(`genreDetails_${genreId}`, JSON.stringify(data)); // Store data as a JSON string
+    
+    return data;
+};
+
+// Example function to retrieve the saved data from localStorage
+export const getPodcastPreviewsFromStorage = () => {
+    const savedData = localStorage.getItem('podcastPreviews');
+    return savedData ? JSON.parse(savedData) : null;
+};
+
+export const getPodcastDetailsFromStorage = (showId) => {
+    const savedData = localStorage.getItem(`podcastDetails_${showId}`);
+    return savedData ? JSON.parse(savedData) : null;
+};
+
+export const getGenreDetailsFromStorage = (genreId) => {
+    const savedData = localStorage.getItem(`genreDetails_${genreId}`);
+    return savedData ? JSON.parse(savedData) : null;
 };

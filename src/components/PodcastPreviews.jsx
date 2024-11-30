@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetchPodcastPreviews, genreMapping } from "../../PodcastDataApi";
+import { fetchPodcastPreviews, genreMapping } from "../PodcastDataApi";
 import { Link, useSearchParams } from "react-router-dom";
 
 /**
@@ -24,16 +24,15 @@ export default function PodcastPreviews() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetchPodcastPreviews()
-            .then((data) => {
-                const sortedShows = data.sort((a, b) => a.title.localeCompare(b.title));
-                setPodcastsPreviews(sortedShows);
-                setLoading(false);
-            })
-            .catch((error) => {
-                setError(error);
-                setLoading(false);
-            });
+        //const storedPodcast = JSON.parse(localStorage.getItem(`podcastPreviews`))
+        const storedPodcast = JSON.parse(localStorage.getItem('podcastPreviews')).sort((a, b) => a.title.localeCompare(b.title));
+        
+        if (storedPodcast) {
+            // If podcast data is found in localStorage, parse and use it
+            setPodcastsPreviews(storedPodcast);
+            console.log(storedPodcast)
+            setLoading(false); 
+        }
     }, []);
 
     useEffect(() => {

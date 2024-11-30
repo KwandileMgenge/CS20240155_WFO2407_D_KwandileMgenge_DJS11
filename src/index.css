@@ -157,8 +157,13 @@ input {
 
 .seasons-container-layout{
     display: flex;
+    height: 5em;
     flex-wrap: nowrap; /* Prevent the items from wrapping to the next line */
     overflow-x: auto; /* Allow horizontal scrolling if items overflow */
     gap: 1em; 
     -webkit-overflow-scrolling: touch; 
+}
+
+.seasons-container-layout::-webkit-scrollbar {
+  display: none; /* Hide scrollbar on WebKit browsers (Chrome, Safari, etc.) */
 }

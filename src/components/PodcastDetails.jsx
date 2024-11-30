@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchDetailedPodcastData, fetchPodcastPreviews, genreMapping } from "../../PodcastDataApi";
-import PodcastSeasons from '../PodcastSeasons';
+import { fetchDetailedPodcastData, fetchPodcastPreviews, genreMapping } from "../PodcastDataApi";
+import PodcastSeasons from './PodcastSeasons';
 
 /**
  * "id": "10716",
