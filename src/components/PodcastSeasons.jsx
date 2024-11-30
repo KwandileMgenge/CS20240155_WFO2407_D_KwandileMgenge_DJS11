@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, Outlet, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { fetchDetailedPodcastData } from "../PodcastDataApi";
 
 export default function SeasonsLayout() {
@@ -38,8 +38,9 @@ export default function SeasonsLayout() {
     // Generate the list of season elements with links
     const seasonsElements = podcast.seasons.map((season) => {
         return (
-            <div key={season.title} className="season-tile">
+            <div key={season.season} className="season-tile">
                 <Link to={`/previews/${id}/season/${season.season}`}>
+                    <img src={season.image} alt={season.title} />
                     <h3>{season.title}</h3>
                     <p>{season.description}</p> {/* Assuming you have a description for the season */}
                 </Link>
@@ -47,13 +48,24 @@ export default function SeasonsLayout() {
         );
     });
 
+    //             <div className="podcast-preview-info">
+    //                 <div className="genre-container">
+    //                     {podcast.genres.map((genreId) => (
+    //                         <p key={genreId} to={`/genre/${genreId}`} className="genre-label">
+    //                             {genreMapping[genreId]}
+    //                         </p>
+    //                     ))}
+    //                 </div>
+    //                 <h3>{podcast.title}</h3>
+    //                 <p>{`${podcast.seasons} ${podcast.seasons > 1 ? "seasons" : "season"}`}</p>
+    //             </div>
+
     return (
         <div>
             <h2>Seasons</h2>
-            <div className="seasons-container-layout">
+            <div className="seasons-container">
                 {seasonsElements}
             </div>
-            <Outlet/>
         </div>
     );
 }

@@ -5,7 +5,7 @@ import PodcastPreviews from './components/pages/PodcastPreviews';
 import PodcastDetails from './components/pages/PodcastDetails';
 import PreviewLayout from './components/PreviewLayout';
 import SeasonsLayout from './components/SeasonsLayout';
-import PodcastSeasons from './PodcastSeasons';
+import PodcastSeasons from './components/PodcastSeasons';
 
 function App() {
   return (
@@ -16,11 +16,8 @@ function App() {
         <Route element={<PreviewLayout />}>
           <Route path='/previews' element={<PodcastPreviews/>} />
 
-          <Route path='/previews/:id' element={<PodcastDetails/>}>
-            <Route path='/previews/:id/' element={<SeasonsLayout/>}>
-              <Route path='/previews/:id/season/:season' element={<PodcastSeasons />} />
-            </Route>
-          </Route>
+          <Route path='/previews/:id' element={<PodcastDetails/>} />
+          <Route path='/previews/:id/season/:season' element={<SeasonsLayout/>} />
         </Route>
       </Routes>
     </BrowserRouter>

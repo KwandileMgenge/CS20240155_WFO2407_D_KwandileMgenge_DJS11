@@ -79,10 +79,13 @@ header > div {
   cursor: pointer;
 }
 
+.season-tile {
+  flex-shrink: 0;
+}
+
 .podcast-tile > a > img,
 .season-tile > a > img {
   width: 5em;
-
 }
 
 .podcast-tile > a,
@@ -150,4 +153,12 @@ input {
   display: flex;
   justify-content: center;
   gap: 2em;
+}
+
+.seasons-container-layout{
+    display: flex;
+    flex-wrap: nowrap; /* Prevent the items from wrapping to the next line */
+    overflow-x: auto; /* Allow horizontal scrolling if items overflow */
+    gap: 1em; 
+    -webkit-overflow-scrolling: touch; 
 }

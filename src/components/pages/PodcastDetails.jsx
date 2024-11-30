@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Outlet, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { fetchDetailedPodcastData, fetchPodcastPreviews, genreMapping } from "../../PodcastDataApi";
+import PodcastSeasons from '../PodcastSeasons';
 
 /**
  * "id": "10716",
@@ -151,7 +152,7 @@ export default function PodcastDetails() {
                 </p>
                 </div>
             </div>
-            <Outlet/>
+            <PodcastSeasons />
         </div>
     );
     }
