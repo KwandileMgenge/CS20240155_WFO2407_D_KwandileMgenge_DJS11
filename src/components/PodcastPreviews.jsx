@@ -30,7 +30,6 @@ export default function PodcastPreviews() {
         if (storedPodcast) {
             // If podcast data is found in localStorage, parse and use it
             setPodcastsPreviews(storedPodcast);
-            console.log(storedPodcast)
             setLoading(false); 
         }
     }, []);
