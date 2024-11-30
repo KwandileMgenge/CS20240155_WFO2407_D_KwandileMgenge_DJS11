@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { fetchDetailedPodcastData, fetchPodcastPreviews, genreMapping } from "../PodcastDataApi"; // Assuming you have this function to fetch podcast details
+import { Outlet, useParams } from "react-router-dom";
+import { fetchDetailedPodcastData, fetchPodcastPreviews, genreMapping } from "../../PodcastDataApi";
 
 /**
  * "id": "10716",
@@ -127,30 +127,31 @@ export default function PodcastDetails() {
     
     return (
         <div>
-        <div className="podcast-detailed-info">
-            <h1>{podcast.title}</h1>
-            <img src={podcast.image} alt={podcast.title} />
-            <div className="genre-container">
-                {genres.map((genreId) => (
-                    <p key={genreId} className="genre-label">
-                        {genreMapping[genreId]} {/* Assuming genreMapping is available */}
-                    </p>
-                ))}
+            <div className="podcast-detailed-info">
+                <h1>{podcast.title}</h1>
+                <img src={podcast.image} alt={podcast.title} />
+                <div className="genre-container">
+                    {genres.map((genreId) => (
+                        <p key={genreId} className="genre-label">
+                            {genreMapping[genreId]} {/* Assuming genreMapping is available */}
+                        </p>
+                    ))}
+                </div>
+                <div>
+                {/* Show truncated or full description based on state */}
+                <p>
+                    {showFullDescription ? (
+                    podcast.description
+                    ) : (
+                    <>
+                        {podcast.description.slice(0, 250)}{' '}...
+                        <a className="read-more" onClick={(e) => { e.preventDefault(); showMore(); }}>read more</a>
+                    </>
+                    )}
+                </p>
+                </div>
             </div>
-            <div>
-            {/* Show truncated or full description based on state */}
-            <p>
-                {showFullDescription ? (
-                podcast.description
-                ) : (
-                <>
-                    {podcast.description.slice(0, 250)}{' '}...
-                    <a className="read-more" onClick={(e) => { e.preventDefault(); showMore(); }}>read more</a>
-                </>
-                )}
-            </p>
-            </div>
-        </div>
+            <Outlet/>
         </div>
     );
     }

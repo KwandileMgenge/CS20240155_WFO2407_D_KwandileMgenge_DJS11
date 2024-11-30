@@ -70,7 +70,8 @@ header > div {
   text-decoration: none;
 }
 
-.podcast-tile {
+.podcast-tile,
+.season-tile {
   padding: 1em;
   border-radius: .5em;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -78,12 +79,14 @@ header > div {
   cursor: pointer;
 }
 
-.podcast-tile > a > img {
+.podcast-tile > a > img,
+.season-tile > a > img {
   width: 5em;
 
 }
 
-.podcast-tile > a {
+.podcast-tile > a,
+.season-tile > a {
   text-decoration: none;
   margin: 3em .5em;
 }
